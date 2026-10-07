@@ -1,0 +1,54 @@
+#==============================================================================
+#  T1 | Simulação e Métodos Analíticos - rede de filas de validação
+#
+#  Fila 1: G/G/1     chegadas 2..4   atendimento 1..2
+#  Fila 2: G/G/2/5                   atendimento 4..6
+#  Fila 3: G/G/2/10                  atendimento 5..15
+#
+#  Mesmo formato do simulador de referência do módulo 3 (simulator.jar).
+#==============================================================================
+!PARAMETERS
+# tempo da primeira chegada do exterior em cada fila
+arrivals:
+   Q1: 2.0
+
+queues:
+   Q1:
+      servers: 1
+      minArrival: 2.0
+      maxArrival: 4.0
+      minService: 1.0
+      maxService: 2.0
+   Q2:
+      servers: 2
+      capacity: 5
+      minService: 4.0
+      maxService: 6.0
+   Q3:
+      servers: 2
+      capacity: 10
+      minService: 5.0
+      maxService: 15.0
+
+# o que falta para as probabilidades de uma fila somarem 1.0 sai do sistema
+network:
+-  source: Q1
+   target: Q2
+   probability: 0.2
+-  source: Q1
+   target: Q3
+   probability: 0.8
+-  source: Q2
+   target: Q1
+   probability: 0.3
+-  source: Q2
+   target: Q3
+   probability: 0.5
+-  source: Q3
+   target: Q2
+   probability: 0.7
+
+# a simulação termina ao utilizar o 100.000º número pseudoaleatório
+rndnumbersPerSeed: 100000
+seeds:
+- 1
